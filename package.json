@@ -1,0 +1,72 @@
+{
+ 
+  "name": "smarted-battalion",
+  "version": "0.1.0",
+  "private": true,
+  "main": "electron/main.js",
+  "description": "SMARTED BATTALION — prototype monorepo (client + server, run independently; this is a convenience wrapper only, not an npm workspace)",
+  "scripts": {
+  "install:all": "npm install --prefix server && npm install --prefix client",
+  "dev:server": "npm run dev --prefix server",
+  "dev:client": "npm run dev --prefix client",
+  "seed": "npm run seed --prefix server",
+  "build": "npm run build --prefix server && npm run build --prefix client",
+  "electron": "electron .",
+  "dist": "npm run build && electron-builder"
+},
+  "devDependencies": {
+    "concurrently": "^10.0.5",
+    "electron": "^44.4.3",
+    "electron-builder": "^26.15.3",
+    "wait-on": "^9.1.0"
+  },
+  "build": {
+  "appId": "in.smartedsystems.battalion",
+  "productName": "SMARTED BATTALION",
+  "directories": {
+    "output": "release"
+  },
+  "files": [
+    "electron/**/*",
+    "package.json"
+  ],
+  "extraResources": [
+    {
+      "from": "client/dist",
+      "to": "client/dist"
+    },
+    {
+      "from": "server/dist",
+      "to": "server/dist"
+    },
+    {
+      "from": "server/node_modules",
+      "to": "server/node_modules"
+    },
+    {
+      "from": "runtime/mongodb",
+      "to": "runtime/mongodb"
+    }
+  ],
+  "win": {
+  "signAndEditExecutable": false,
+  "target": [
+    {
+      "target": "nsis",
+      "arch": [
+        "x64"
+      ]
+    }
+  ],
+  "artifactName": "SMARTED-BATTALION-Setup.exe"
+},
+  "nsis": {
+    "oneClick": true,
+    "perMachine": false,
+    "allowToChangeInstallationDirectory": false,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "shortcutName": "SMARTED BATTALION"
+  }
+}
+}
